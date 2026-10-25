@@ -58,8 +58,7 @@ const CONTACTS = {
 const REKENING = {
   bank: "BRI",
   no: "448501011871533",
-  an: "Ayam Potong Banjarmasin",
-  an_full: "Ayam Potong Banjarmasin (A.n Ayara Project)",
+  an: "Rusniawati",
 };
 
 function generateInvoiceNo() {
@@ -705,7 +704,7 @@ export default function App() {
               className="bg-white text-[#0f172a] rounded-[10px] border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.06)]"
               style={{ width: "100%", maxWidth: "100%", lineHeight: "1.4", overflow: "visible" }}
             >
-              <div className="p-6" style={{ minHeight: "auto", overflow: "visible" }}>
+              <div className="p-6 flex flex-col" style={{ minHeight: "560px", overflow: "visible" }}>
                 {/* PROFESSIONAL HEADER - Balanced */}
                 <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#e2e8f0]">
                   <div className="flex items-start gap-3 shrink-0">
@@ -741,7 +740,7 @@ export default function App() {
                     </div>
                     <div className="text-right">
                       <p className="text-[8.5px] tracking-[0.16em] font-extrabold text-[#64748b] uppercase">Status</p>
-                      <div className="mt-1.5 inline-flex px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#15803d] text-[9px] font-extrabold tracking-wide border border-[#bbf7d0]">LUNAS • Segar Hari Ini</div>
+                      <div className="mt-1.5 inline-flex px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#15803d] text-[9px] font-extrabold tracking-wide border border-[#bbf7d0]"></div>
                     </div>
                   </div>
                 </div>
@@ -749,11 +748,11 @@ export default function App() {
                 <div className="mt-2.5" style={{ overflow: "visible" }}>
                   <table className="w-full text-[11px] leading-[1.4]" style={{ overflow: "visible" }}>
                     <thead>
-                      <tr className="text-[8.5px] tracking-[0.16em] text-[#64748b] uppercase border-b-[1.5px] border-[#0f172a] h-[36px]">
-                        <th className="text-left font-extrabold py-0 px-2">Produk</th>
-                        <th className="text-center font-extrabold py-0 w-[64px]">Jml</th>
-                        <th className="text-right font-extrabold py-0 w-[92px]">Harga</th>
-                        <th className="text-right font-extrabold py-0 w-[100px] pr-2">Total</th>
+                      <tr className="text-[8px] tracking-[0.14em] text-[#94a3b8] uppercase border-b border-[#e2e8f0] h-[28px]">
+                        <th className="text-left font-bold py-0 px-2">Produk</th>
+                        <th className="text-center font-bold py-0 w-[56px]">Jml</th>
+                        <th className="text-right font-bold py-0 w-[80px]">Harga</th>
+                        <th className="text-right font-bold py-0 w-[88px] pr-2">Total</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -782,41 +781,37 @@ export default function App() {
                 </div>
 
                 <div className="mt-4 flex justify-end">
-                  <div className="w-[220px] rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-3.5 space-y-2">
-                    <div className="flex justify-between text-[11px]">
-                      <span className="text-[#64748b] font-medium tracking-wide">Subtotal</span>
-                      <span className="font-semibold text-[#334155]">{formatRupiah(subtotal)}</span>
+                  <div className="w-[200px] space-y-1.5 py-2">
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-[#64748b]">Subtotal</span>
+                      <span className="font-medium text-[#0f172a]">{formatRupiah(subtotal)}</span>
                     </div>
-                    <div className="h-px bg-[#e2e8f0]" />
-                    <div className="flex justify-between items-center">
-                      <span className="font-extrabold jakarta text-[12px] tracking-wide text-[#0f172a]">TOTAL</span>
-                      <span className="font-extrabold jakarta text-[15px] text-[#0f172a] tracking-tight">{formatRupiah(total)}</span>
+                    <div className="h-px bg-[#f1f5f9]" />
+                    <div className="flex justify-between items-center pt-1">
+                      <span className="font-bold text-[11px] text-[#0f172a]">TOTAL</span>
+                      <span className="font-bold text-[13px] text-[#0f172a]">{formatRupiah(total)}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* PAYMENT & CONTACT - Consistent spacing */}
-                <div className="mt-4 grid grid-cols-[1.25fr_0.75fr] gap-3">
-                  <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-4 leading-[1.4]">
-                    <p className="text-[8.5px] font-extrabold tracking-[0.16em] text-[#64748b] uppercase">Pembayaran Resmi Toko</p>
-                    <div className="mt-2.5 flex items-center gap-2.5">
-                      <div className="px-2.5 py-1.5 rounded-lg bg-[#0f172a] text-white text-[10px] font-extrabold tracking-wide">{REKENING.bank}</div>
-                      <span className="font-mono font-bold text-[14px] text-[#0f172a] tracking-tight">{REKENING.no}</span>
+                {/* PAYMENT & CONTACT - Simple bottom, small, A4 */}
+                <div className="mt-auto pt-8">
+                  <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#f1f5f9]">
+                    <div className="rounded-lg bg-[#f8fafc] border border-[#e2e8f0] p-3">
+                      <p className="text-[8px] font-bold tracking-[0.14em] text-[#64748b] uppercase">Pembayaran</p>
+                      <div className="mt-1.5 flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded bg-[#0f172a] text-white text-[8.5px] font-bold">{REKENING.bank}</span>
+                        <span className="font-mono font-bold text-[11px] text-[#0f172a]">{REKENING.no}</span>
+                      </div>
+                      <p className="text-[9px] text-[#334155] mt-1.5">a.n. <span className="font-bold text-[#0f172a]">{REKENING.an}</span></p>
                     </div>
-                    <p className="text-[10px] text-[#334155] mt-2 leading-[1.5] font-medium">
-                      a.n. <span className="font-extrabold text-[#0f172a]">{REKENING.an}</span><br/>
-                      <span className="text-[9px] text-[#64748b]">Konfirmasi WA setelah transfer • Bukan a.n pembeli</span>
-                    </p>
-                  </div>
-                  <div className="rounded-xl bg-white border border-[#e2e8f0] p-4 leading-[1.4] flex flex-col justify-center">
-                    <p className="text-[8.5px] font-extrabold tracking-[0.16em] text-[#64748b] uppercase">Hubungi Toko</p>
-                    <div className="mt-2.5 space-y-1">
-                      <p className="text-[10.5px] font-bold text-[#0f172a] flex items-center gap-1.5"><span className="text-[10px]">📞</span>{CONTACTS.wa1}</p>
-                      <p className="text-[10.5px] font-bold text-[#0f172a] flex items-center gap-1.5"><span className="text-[10px]">📞</span>{CONTACTS.wa2}</p>
-                      <div className="h-px bg-[#f1f5f9] my-1.5"/>
-                      <p className="text-[10px] text-[#334155] font-medium">IG @{CONTACTS.ig}</p>
+                    <div className="rounded-lg bg-white border border-[#e2e8f0] p-3">
+                      <p className="text-[8px] font-bold tracking-[0.14em] text-[#64748b] uppercase">Hubungi Toko</p>
+                      <p className="text-[9px] font-bold text-[#0f172a] mt-1.5">{CONTACTS.wa1} • {CONTACTS.wa2}</p>
+                      <p className="text-[9px] text-[#64748b] mt-1">IG @{CONTACTS.ig}</p>
                     </div>
                   </div>
+                  <div className="mt-3 text-[8.5px] text-[#94a3b8] text-center">Terima kasih — Simpan sebagai bukti pembayaran.</div>
                 </div>
 
                 <div className="mt-3 pt-2.5 border-t border-[#f1f5f9] flex justify-between gap-3 text-[9px] text-[#64748b] leading-[1.4]" style={{ overflow: "visible" }}>
