@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import logoAyam from "container:///mnt/data/src/assets/e8ff97c7be6aa8da-logo_ayam.png";
+import logoAyam from "./assets/logo.png";
 
 type Unit = "Ekor" | "Kg";
 type ProductDef = { id: string; name: string; unit: Unit; category: string; defaultPrice: number; };
