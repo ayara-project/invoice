@@ -708,9 +708,7 @@ export default function App() {
                 {/* PROFESSIONAL HEADER - Balanced */}
                 <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#e2e8f0]">
                   <div className="flex items-start gap-3 shrink-0">
-                    <div className="w-[42px] h-[42px] rounded-xl bg-[#0f172a] flex items-center justify-center shrink-0 shadow-sm">
-                      <img src={logoAyam} alt="Logo Ayam Potong Banjarmasin" className="w-[28px] h-[28px] object-contain brightness-0 invert" />
-                    </div>
+                    <img src={logoAyam} alt="Logo Ayam Potong Banjarmasin" className="w-[38px] h-[38px] object-contain shrink-0" style={{display:"block"}} />
                     <div className="leading-[1.3]">
                       <h3 className="jakarta font-extrabold text-[13.5px] tracking-tight text-[#0f172a] leading-[1.2]">Ayam Potong Banjarmasin</h3>
                       <p className="text-[10px] text-[#64748b] mt-1 leading-[1.4] font-medium">
@@ -800,7 +798,7 @@ export default function App() {
                     <div className="rounded-lg bg-[#f8fafc] border border-[#e2e8f0] p-3">
                       <p className="text-[8px] font-bold tracking-[0.14em] text-[#64748b] uppercase">Pembayaran</p>
                       <div className="mt-1.5 flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded bg-[#0f172a] text-white text-[8.5px] font-bold">{REKENING.bank}</span>
+                        <span className="inline-grid place-items-center rounded-[8px] bg-[#0f172a] text-white text-[9px] font-bold tracking-wide" style={{height:"22px", minWidth:"42px", lineHeight:"22px"}}>{REKENING.bank}</span>
                         <span className="font-mono font-bold text-[11px] text-[#0f172a]">{REKENING.no}</span>
                       </div>
                       <p className="text-[9px] text-[#334155] mt-1.5">a.n. <span className="font-bold text-[#0f172a]">{REKENING.an}</span></p>
@@ -811,13 +809,10 @@ export default function App() {
                       <p className="text-[9px] text-[#64748b] mt-1">IG @{CONTACTS.ig}</p>
                     </div>
                   </div>
-                  <div className="mt-3 text-[8.5px] text-[#94a3b8] text-center">Terima kasih — Simpan sebagai bukti pembayaran.</div>
+                  <div className="mt-3 h-[12px]"></div>
                 </div>
 
-                <div className="mt-3 pt-2.5 border-t border-[#f1f5f9] flex justify-between gap-3 text-[9px] text-[#64748b] leading-[1.4]" style={{ overflow: "visible" }}>
-                  <span>Terima kasih — Simpan sebagai bukti pembayaran. Ayam segar potong hari ini.</span>
-                  <span className="font-bold text-[#0f172a] whitespace-nowrap">Ayam Potong Bjm</span>
-                </div>
+                <div className="mt-3 pt-2.5 border-t border-[#f1f5f9] h-[8px]" style={{ overflow: "visible" }}></div>
               </div>
               <div className="h-1 bg-[#16a34a] rounded-b-[10px]" style={{ overflow: "visible" }} />
             </div>
