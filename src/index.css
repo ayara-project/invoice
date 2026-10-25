@@ -1,0 +1,7 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root { --bg:#f8fafc; --surface:#ffffff; --line:#e2e8f0; --muted:#64748b; --radius:16px; }
+body { background:var(--bg); color:#0f172a; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+.jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
