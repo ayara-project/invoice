@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import logoAyam from "./assets/logo.png";
+import logoAyam from "container:///mnt/data/src/assets/e8ff97c7be6aa8da-logo_ayam.png";
 
 type Unit = "Ekor" | "Kg";
 type ProductDef = { id: string; name: string; unit: Unit; category: string; defaultPrice: number; };
@@ -268,7 +268,24 @@ export default function App() {
     setExportMsg("Membuat JPG...");
     try {
       const html2canvas = await ensureHtml2Canvas();
-      const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: "#ffffff", logging: false });
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+        windowWidth: el.scrollWidth,
+        windowHeight: el.scrollHeight,
+        scrollX: 0,
+        scrollY: 0,
+        onclone: (clonedDoc: Document) => {
+          const clonedEl = clonedDoc.getElementById("invoice-a4-capture") as HTMLElement | null;
+          if (clonedEl) {
+            clonedEl.style.letterSpacing = "normal";
+            clonedEl.style.lineHeight = "1.4";
+            clonedEl.style.overflow = "visible";
+          }
+        },
+      });
       const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
       if (imgWin && !imgWin.closed) {
         const html = `<html><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>${invoiceNo}</title><style>body{margin:0;background:#000;color:#fff;font-family:-apple-system,Inter,sans-serif} img{width:100%;display:block;background:#fff} .hint{text-align:center;padding:14px 16px;font-size:14px;line-height:1.4;background:#0f172a} .hint b{color:#22c55e}</style></head><body><img src="${dataUrl}" alt="${invoiceNo}"><p class="hint">Tekan lama gambar → <b>Add to Photos / Save Image</b><br/>Di iPhone: tahan gambar sampai muncul menu simpan</p></body></html>`;
@@ -342,7 +359,24 @@ export default function App() {
     setExportMsg("Membuat PDF...");
     try {
       const [html2canvas, JsPDFCtor] = await Promise.all([ensureHtml2Canvas(), ensureJsPDF()]);
-      const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: "#ffffff", logging: false });
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+        windowWidth: el.scrollWidth,
+        windowHeight: el.scrollHeight,
+        scrollX: 0,
+        scrollY: 0,
+        onclone: (clonedDoc: Document) => {
+          const clonedEl = clonedDoc.getElementById("invoice-a4-capture") as HTMLElement | null;
+          if (clonedEl) {
+            clonedEl.style.letterSpacing = "normal";
+            clonedEl.style.lineHeight = "1.4";
+            clonedEl.style.overflow = "visible";
+          }
+        },
+      });
       const imgData = canvas.toDataURL("image/jpeg", 0.92);
       const pdf = new JsPDFCtor("p", "mm", "a4");
       const pageW = pdf.internal.pageSize.getWidth();
@@ -579,8 +613,8 @@ export default function App() {
                 <p className="text-[9px] text-[#334155] leading-[1.3]">JPG dibuka di tab baru otomatis. Untuk simpan ke galeri, tekan lama gambar sampai muncul <span className="font-bold">Add to Photos / Save Image</span>.</p>
               </div>
             </div>
-            <p className="text-[10px] text-[#334155] leading-[1.3]">
-              Invoice compact max 700px — hasil export pasti <span className="font-bold text-[#0f172a]">1 halaman</span> A4: <span className="font-mono font-bold">{invoiceNo}.pdf</span>
+            <p className="text-[10px] text-[#334155] leading-[1.4]">
+              Invoice compact auto-height (overflow visible) — hasil export pasti <span className="font-bold text-[#0f172a]">1 halaman</span> A4: <span className="font-mono font-bold">{invoiceNo}.pdf</span>
             </p>
           </div>
 
@@ -664,43 +698,50 @@ export default function App() {
               </div>
             </div>
           ) : (
-            <div id="invoice-a4-capture" ref={invoiceA4Ref} className="bg-white text-[#0f172a] rounded-[10px] border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.06)] overflow-hidden" style={{ maxWidth: "100%", lineHeight: "1.35" }}>
-              <div className="p-5" style={{ maxHeight: "700px" }}>
+            <div
+              id="invoice-a4-capture"
+              ref={invoiceA4Ref}
+              className="bg-white text-[#0f172a] rounded-[10px] border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.06)]"
+              style={{ width: "100%", maxWidth: "100%", lineHeight: "1.4", overflow: "visible" }}
+            >
+              <div className="p-6" style={{ minHeight: "auto", overflow: "visible" }}>
                 <div className="flex items-start justify-between gap-3 pb-3 border-b border-[#e2e8f0]">
                   <div className="flex items-start gap-2.5">
                     <img src={logoAyam} alt="Logo Ayam Potong Banjarmasin" className="w-[38px] h-[38px] object-contain shrink-0" />
-                    <div className="leading-[1.3]">
-                      <h3 className="jakarta font-bold text-[13px] text-[#0f172a] leading-none">Ayam Potong Banjarmasin</h3>
-                      <p className="text-[10px] text-[#334155] mt-1 leading-[1.3]">
+                    <div className="leading-[1.4]" style={{ overflow: "visible" }}>
+                      <h3 className="jakarta font-bold text-[13px] text-[#0f172a] leading-[1.3]">Ayam Potong Banjarmasin</h3>
+                      <p className="text-[10px] text-[#334155] mt-1 leading-[1.4]">
                         Jl. A. Yani KM 6 • Banjarmasin
                         <br />WA {CONTACTS.wa1}
                       </p>
-                      <div className="mt-1.5 inline-flex text-[10px] font-bold tracking-[0.14em] px-2 py-0.5 rounded-full bg-[#0f172a] text-white">INVOICE</div>
+                      <div className="mt-2 inline-flex items-center justify-center text-[10px] font-bold tracking-[0.14em] px-3 py-1.5 rounded-full bg-[#0f172a] text-white leading-none min-h-[20px] h-auto" style={{ overflow: "visible", lineHeight: "1", display: "inline-flex" }}>
+                        INVOICE
+                      </div>
                     </div>
                   </div>
-                  <div className="text-right leading-[1.3]">
-                    <p className="text-[9px] tracking-[0.14em] text-[#334155] font-bold uppercase">No Invoice</p>
-                    <p className="font-mono font-bold text-[12px] mt-0.5 text-[#0f172a]">{invoiceNo}</p>
-                    <p className="text-[10px] text-[#0f172a] mt-1 font-medium">{formatTanggal(tanggal)}</p>
+                  <div className="text-right leading-[1.4]">
+                    <p className="text-[9px] tracking-[0.14em] text-[#334155] font-bold uppercase leading-[1.4]">No Invoice</p>
+                    <p className="font-mono font-bold text-[12px] mt-1 text-[#0f172a] leading-[1.4] break-words">{invoiceNo}</p>
+                    <p className="text-[10px] text-[#0f172a] mt-1 font-medium leading-[1.4]">{formatTanggal(tanggal)}</p>
                   </div>
                 </div>
 
-                <div className="py-2.5 border-b border-[#f1f5f9]">
-                  <div className="leading-[1.35]">
-                    <p className="text-[9px] tracking-[0.12em] font-bold text-[#64748b] uppercase">Kepada</p>
-                    <p className="font-bold text-[12px] mt-1 text-[#0f172a] leading-[1.3] truncate">{namaPelanggan || "Nama Pelanggan"}</p>
-                    <p className="text-[10px] text-[#334155] mt-0.5 font-medium">{noHP || "No HP / WA"}</p>
+                <div className="py-3 border-b border-[#f1f5f9]" style={{ overflow: "visible" }}>
+                  <div className="leading-[1.4]" style={{ overflow: "visible" }}>
+                    <p className="text-[9px] tracking-[0.12em] font-bold text-[#64748b] uppercase leading-[1.4]">Kepada</p>
+                    <p className="font-bold text-[13px] mt-1 text-[#0f172a] leading-[1.5] break-words" style={{ overflow: "visible", wordBreak: "break-word" }}>{namaPelanggan || "Nama Pelanggan"}</p>
+                    <p className="text-[10px] text-[#334155] mt-1 font-medium leading-[1.4] break-words">{noHP || "No HP / WA"}</p>
                   </div>
                 </div>
 
-                <div className="mt-2.5">
-                  <table className="w-full text-[11px] leading-[1.35]">
+                <div className="mt-2.5" style={{ overflow: "visible" }}>
+                  <table className="w-full text-[11px] leading-[1.4]" style={{ overflow: "visible" }}>
                     <thead>
-                      <tr className="text-[9px] tracking-[0.12em] text-[#334155] uppercase border-b border-[#0f172a] h-[32px]">
-                        <th className="text-left font-bold py-0 px-1">Produk</th>
-                        <th className="text-center font-bold py-0 w-[56px]">Jml</th>
-                        <th className="text-right font-bold py-0 w-[84px]">Harga</th>
-                        <th className="text-right font-bold py-0 w-[88px] pr-1">Total</th>
+                      <tr className="text-[9px] tracking-[0.12em] text-[#334155] uppercase border-b border-[#0f172a] h-[34px]" style={{ lineHeight: "1.4" }}>
+                        <th className="text-left font-bold py-0 px-1 leading-[1.4]">Produk</th>
+                        <th className="text-center font-bold py-0 w-[56px] leading-[1.4]">Jml</th>
+                        <th className="text-right font-bold py-0 w-[84px] leading-[1.4]">Harga</th>
+                        <th className="text-right font-bold py-0 w-[88px] pr-1 leading-[1.4]">Total</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -712,15 +753,15 @@ export default function App() {
                         </tr>
                       ) : (
                         items.map((it) => (
-                          <tr key={it.id} className="border-b border-[#f1f5f9] h-[28px]">
-                            <td className="py-1 px-1">
-                              <p className="font-bold text-[11px] leading-[1.3] text-[#0f172a] truncate max-w-[220px]">{it.name}</p>
+                          <tr key={it.id} className="border-b border-[#f1f5f9] min-h-[28px]">
+                            <td className="py-1.5 px-1 align-top">
+                              <p className="font-bold text-[11px] leading-[1.4] text-[#0f172a] break-words" style={{ wordBreak: "break-word", overflow: "visible" }}>{it.name}</p>
                             </td>
-                            <td className="py-1 text-center font-semibold text-[11px] text-[#0f172a]">
+                            <td className="py-1.5 text-center font-semibold text-[11px] text-[#0f172a] leading-[1.4] align-top">
                               {it.qty === "" ? "0" : it.qty} {it.unit}
                             </td>
-                            <td className="py-1 text-right text-[10px] text-[#0f172a]">{formatRupiah(parsePriceNumber(it.price))}</td>
-                            <td className="py-1 text-right font-bold text-[11px] pr-1 text-[#0f172a]">{formatRupiah(parseQtyNumber(it.qty) * parsePriceNumber(it.price))}</td>
+                            <td className="py-1.5 text-right text-[10px] text-[#0f172a] leading-[1.4] align-top">{formatRupiah(parsePriceNumber(it.price))}</td>
+                            <td className="py-1.5 text-right font-bold text-[11px] pr-1 text-[#0f172a] leading-[1.4] align-top">{formatRupiah(parseQtyNumber(it.qty) * parsePriceNumber(it.price))}</td>
                           </tr>
                         ))
                       )}
@@ -728,8 +769,8 @@ export default function App() {
                   </table>
                 </div>
 
-                <div className="mt-2.5 flex justify-end">
-                  <div className="w-[200px] space-y-1 text-[11px] leading-[1.35]">
+                <div className="mt-3 flex justify-end" style={{ overflow: "visible" }}>
+                  <div className="w-[200px] space-y-1 text-[11px] leading-[1.4]">
                     <div className="flex justify-between">
                       <span className="text-[#334155] font-medium">Subtotal</span>
                       <span className="font-bold text-[#0f172a]">{formatRupiah(subtotal)}</span>
@@ -742,31 +783,31 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-3 grid grid-cols-[1.2fr_0.8fr] gap-2">
-                  <div className="rounded-lg bg-[#f8fafc] border border-[#e2e8f0] p-2.5 leading-[1.35]">
-                    <p className="text-[9px] font-bold tracking-[0.14em] text-[#334155] uppercase">Pembayaran</p>
+                <div className="mt-3 grid grid-cols-[1.2fr_0.8fr] gap-2" style={{ overflow: "visible" }}>
+                  <div className="rounded-lg bg-[#f8fafc] border border-[#e2e8f0] p-2.5 leading-[1.4]" style={{ overflow: "visible" }}>
+                    <p className="text-[9px] font-bold tracking-[0.14em] text-[#334155] uppercase leading-[1.4]">Pembayaran</p>
                     <div className="mt-1 flex items-center gap-2">
-                      <div className="px-2 py-1 rounded bg-white border border-[#e2e8f0] text-[10px] font-bold text-[#0f172a]">{REKENING.bank}</div>
-                      <span className="font-mono font-bold text-[13px] text-[#0f172a] tracking-tight">{REKENING.no}</span>
+                      <div className="px-2 py-1 rounded bg-white border border-[#e2e8f0] text-[10px] font-bold text-[#0f172a] leading-[1.4]">{REKENING.bank}</div>
+                      <span className="font-mono font-bold text-[13px] text-[#0f172a] tracking-tight leading-[1.4]">{REKENING.no}</span>
                     </div>
-                    <p className="text-[10px] text-[#334155] mt-1">
+                    <p className="text-[10px] text-[#334155] mt-1 leading-[1.4]">
                       a.n. <span className="font-bold text-[#0f172a]">{REKENING.an}</span> • Konfirmasi WA setelah transfer
                     </p>
                   </div>
-                  <div className="rounded-lg bg-white border border-[#e2e8f0] p-2.5 leading-[1.35]">
-                    <p className="text-[9px] font-bold tracking-[0.14em] text-[#334155] uppercase">Hubungi</p>
-                    <p className="text-[10px] font-bold text-[#0f172a] mt-1">{CONTACTS.wa1}</p>
-                    <p className="text-[10px] font-bold text-[#0f172a]">{CONTACTS.wa2}</p>
-                    <p className="text-[10px] text-[#334155] mt-0.5">IG @{CONTACTS.ig}</p>
+                  <div className="rounded-lg bg-white border border-[#e2e8f0] p-2.5 leading-[1.4]" style={{ overflow: "visible" }}>
+                    <p className="text-[9px] font-bold tracking-[0.14em] text-[#334155] uppercase leading-[1.4]">Hubungi</p>
+                    <p className="text-[10px] font-bold text-[#0f172a] mt-1 leading-[1.4]">{CONTACTS.wa1}</p>
+                    <p className="text-[10px] font-bold text-[#0f172a] leading-[1.4]">{CONTACTS.wa2}</p>
+                    <p className="text-[10px] text-[#334155] mt-1 leading-[1.4]">IG @{CONTACTS.ig}</p>
                   </div>
                 </div>
 
-                <div className="mt-2.5 pt-2 border-t border-[#f1f5f9] flex justify-between gap-3 text-[9px] text-[#64748b] leading-[1.35]">
+                <div className="mt-3 pt-2.5 border-t border-[#f1f5f9] flex justify-between gap-3 text-[9px] text-[#64748b] leading-[1.4]" style={{ overflow: "visible" }}>
                   <span>Terima kasih — Simpan sebagai bukti pembayaran. Ayam segar potong hari ini.</span>
                   <span className="font-bold text-[#0f172a] whitespace-nowrap">Ayam Potong Bjm</span>
                 </div>
               </div>
-              <div className="h-1 bg-[#16a34a]" />
+              <div className="h-1 bg-[#16a34a] rounded-b-[10px]" style={{ overflow: "visible" }} />
             </div>
           )}
 
