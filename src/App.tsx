@@ -489,7 +489,7 @@ export default function App() {
           <section className="bg-white rounded-[12px] border border-[#e2e8f0] shadow-[0_1px_2px_rgba(15,23,42,0.06)] p-4">
             <div className="flex items-center justify-between mb-3">
               <h2 className="jakarta font-bold text-[12px] tracking-wide text-[#0f172a]">DATA PELANGGAN & INVOICE</h2>
-              <span className="inline-flex items-center justify-center h-[22px] px-2.5 rounded-full bg-[#0f172a] text-white font-bold tracking-wide text-[10px] leading-none text-center">{invoiceNo}</span>
+              <span className="text-[10px] px-2 py-1 rounded-full bg-[#0f172a] text-white font-bold tracking-wide">{invoiceNo}</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <label className="flex flex-col gap-1">
@@ -717,15 +717,15 @@ export default function App() {
                       <p className="text-[10px] text-[#64748b] mt-1 leading-[1.4] font-medium">
                         Jl. A. Yani KM 6 • Banjarmasin<br/>WA {CONTACTS.wa1} • IG @{CONTACTS.ig}
                       </p>
-                      <div className="mt-2.5 inline-flex items-center justify-center text-[9px] font-extrabold tracking-[0.16em] px-3 h-[20px] rounded-full bg-[#0f172a] text-white leading-none text-center">
-                        <span className="leading-none translate-y-[0.5px]">INVOICE</span>
+                      <div className="mt-2.5 inline-flex items-center text-[9px] font-extrabold tracking-[0.16em] px-3 py-1.5 rounded-full bg-[#0f172a] text-white leading-none">
+                        INVOICE
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1.5 shrink-0 max-w-[55%]">
                     <p className="text-[8.5px] tracking-[0.16em] text-[#64748b] font-bold uppercase">Nomor Invoice</p>
-                    <div className="inline-flex items-center justify-center bg-[#0f172a] text-white font-mono font-bold text-[12px] tracking-tight px-3.5 h-[28px] rounded-full whitespace-nowrap leading-none shadow-sm text-center" style={{ whiteSpace: "nowrap" }}>
-                      <span className="leading-none">{invoiceNo}</span>
+                    <div className="inline-flex items-center bg-[#0f172a] text-white font-mono font-bold text-[12px] tracking-tight px-3.5 py-2 rounded-full whitespace-nowrap leading-none shadow-sm" style={{ whiteSpace: "nowrap" }}>
+                      {invoiceNo}
                     </div>
                     <p className="text-[10.5px] text-[#0f172a] font-semibold mt-0.5">{formatTanggal(tanggal)}</p>
                     <p className="text-[9px] text-[#64748b] font-medium">No. HP: {noHP || "-"}</p>
@@ -741,9 +741,7 @@ export default function App() {
                     </div>
                     <div className="text-right">
                       <p className="text-[8.5px] tracking-[0.16em] font-extrabold text-[#64748b] uppercase">Status</p>
-                      <div className="mt-1.5 inline-flex items-center justify-center h-[22px] px-2.5 rounded-full bg-[#dcfce7] text-[#15803d] text-[9px] font-extrabold tracking-wide border border-[#bbf7d0] leading-none text-center">
-                        <span className="leading-none">LUNAS • Segar Hari Ini</span>
-                      </div>
+                      <div className="mt-1.5 inline-flex px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#15803d] text-[9px] font-extrabold tracking-wide border border-[#bbf7d0]">LUNAS • Segar Hari Ini</div>
                     </div>
                   </div>
                 </div>
