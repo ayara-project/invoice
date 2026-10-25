@@ -58,7 +58,8 @@ const CONTACTS = {
 const REKENING = {
   bank: "BRI",
   no: "448501011871533",
-  an: "Rusniawati",
+  an: "Ayam Potong Banjarmasin",
+  an_full: "Ayam Potong Banjarmasin (A.n Ayara Project)",
 };
 
 function generateInvoiceNo() {
@@ -705,43 +706,54 @@ export default function App() {
               style={{ width: "100%", maxWidth: "100%", lineHeight: "1.4", overflow: "visible" }}
             >
               <div className="p-6" style={{ minHeight: "auto", overflow: "visible" }}>
-                <div className="flex items-start justify-between gap-3 pb-3 border-b border-[#e2e8f0]">
-                  <div className="flex items-start gap-2.5">
-                    <img src={logoAyam} alt="Logo Ayam Potong Banjarmasin" className="w-[38px] h-[38px] object-contain shrink-0" />
-                    <div className="leading-[1.4]" style={{ overflow: "visible" }}>
-                      <h3 className="jakarta font-bold text-[13px] text-[#0f172a] leading-[1.3]">Ayam Potong Banjarmasin</h3>
-                      <p className="text-[10px] text-[#334155] mt-1 leading-[1.4]">
-                        Jl. A. Yani KM 6 • Banjarmasin
-                        <br />WA {CONTACTS.wa1}
+                {/* PROFESSIONAL HEADER - Balanced */}
+                <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#e2e8f0]">
+                  <div className="flex items-start gap-3 shrink-0">
+                    <div className="w-[42px] h-[42px] rounded-xl bg-[#0f172a] flex items-center justify-center shrink-0 shadow-sm">
+                      <img src={logoAyam} alt="Logo Ayam Potong Banjarmasin" className="w-[28px] h-[28px] object-contain brightness-0 invert" />
+                    </div>
+                    <div className="leading-[1.3]">
+                      <h3 className="jakarta font-extrabold text-[13.5px] tracking-tight text-[#0f172a] leading-[1.2]">Ayam Potong Banjarmasin</h3>
+                      <p className="text-[10px] text-[#64748b] mt-1 leading-[1.4] font-medium">
+                        Jl. A. Yani KM 6 • Banjarmasin<br/>WA {CONTACTS.wa1} • IG @{CONTACTS.ig}
                       </p>
-                      <div className="mt-2 inline-flex items-center justify-center text-[10px] font-bold tracking-[0.14em] px-3 py-1.5 rounded-full bg-[#0f172a] text-white leading-none min-h-[20px] h-auto" style={{ overflow: "visible", lineHeight: "1", display: "inline-flex" }}>
+                      <div className="mt-2.5 inline-flex items-center text-[9px] font-extrabold tracking-[0.16em] px-3 py-1.5 rounded-full bg-[#0f172a] text-white leading-none">
                         INVOICE
                       </div>
                     </div>
                   </div>
-                  <div className="text-right leading-[1.4]">
-                    <p className="text-[9px] tracking-[0.14em] text-[#334155] font-bold uppercase leading-[1.4]">No Invoice</p>
-                    <p className="font-mono font-bold text-[12px] mt-1 text-[#0f172a] leading-[1.4] break-words">{invoiceNo}</p>
-                    <p className="text-[10px] text-[#0f172a] mt-1 font-medium leading-[1.4]">{formatTanggal(tanggal)}</p>
+                  <div className="flex flex-col items-end gap-1.5 shrink-0 max-w-[55%]">
+                    <p className="text-[8.5px] tracking-[0.16em] text-[#64748b] font-bold uppercase">Nomor Invoice</p>
+                    <div className="inline-flex items-center bg-[#0f172a] text-white font-mono font-bold text-[12px] tracking-tight px-3.5 py-2 rounded-full whitespace-nowrap leading-none shadow-sm" style={{ whiteSpace: "nowrap" }}>
+                      {invoiceNo}
+                    </div>
+                    <p className="text-[10.5px] text-[#0f172a] font-semibold mt-0.5">{formatTanggal(tanggal)}</p>
+                    <p className="text-[9px] text-[#64748b] font-medium">No. HP: {noHP || "-"}</p>
                   </div>
                 </div>
 
-                <div className="py-3 border-b border-[#f1f5f9]" style={{ overflow: "visible" }}>
-                  <div className="leading-[1.4]" style={{ overflow: "visible" }}>
-                    <p className="text-[9px] tracking-[0.12em] font-bold text-[#64748b] uppercase leading-[1.4]">Kepada</p>
-                    <p className="font-bold text-[13px] mt-1 text-[#0f172a] leading-[1.5] break-words" style={{ overflow: "visible", wordBreak: "break-word" }}>{namaPelanggan || "Nama Pelanggan"}</p>
-                    <p className="text-[10px] text-[#334155] mt-1 font-medium leading-[1.4] break-words">{noHP || "No HP / WA"}</p>
+                <div className="py-3.5 border-b border-[#f1f5f9]">
+                  <div className="flex justify-between items-start gap-4">
+                    <div>
+                      <p className="text-[8.5px] tracking-[0.16em] font-extrabold text-[#64748b] uppercase">Kepada Pelanggan</p>
+                      <p className="font-bold text-[13.5px] mt-1.5 text-[#0f172a] leading-[1.4] break-words" style={{ wordBreak: "break-word" }}>{namaPelanggan || "Nama Pelanggan"}</p>
+                      <p className="text-[10.5px] text-[#334155] mt-1 font-medium">{noHP || "No HP / WA"}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[8.5px] tracking-[0.16em] font-extrabold text-[#64748b] uppercase">Status</p>
+                      <div className="mt-1.5 inline-flex px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#15803d] text-[9px] font-extrabold tracking-wide border border-[#bbf7d0]">LUNAS • Segar Hari Ini</div>
+                    </div>
                   </div>
                 </div>
 
                 <div className="mt-2.5" style={{ overflow: "visible" }}>
                   <table className="w-full text-[11px] leading-[1.4]" style={{ overflow: "visible" }}>
                     <thead>
-                      <tr className="text-[9px] tracking-[0.12em] text-[#334155] uppercase border-b border-[#0f172a] h-[34px]" style={{ lineHeight: "1.4" }}>
-                        <th className="text-left font-bold py-0 px-1 leading-[1.4]">Produk</th>
-                        <th className="text-center font-bold py-0 w-[56px] leading-[1.4]">Jml</th>
-                        <th className="text-right font-bold py-0 w-[84px] leading-[1.4]">Harga</th>
-                        <th className="text-right font-bold py-0 w-[88px] pr-1 leading-[1.4]">Total</th>
+                      <tr className="text-[8.5px] tracking-[0.16em] text-[#64748b] uppercase border-b-[1.5px] border-[#0f172a] h-[36px]">
+                        <th className="text-left font-extrabold py-0 px-2">Produk</th>
+                        <th className="text-center font-extrabold py-0 w-[64px]">Jml</th>
+                        <th className="text-right font-extrabold py-0 w-[92px]">Harga</th>
+                        <th className="text-right font-extrabold py-0 w-[100px] pr-2">Total</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -769,36 +781,41 @@ export default function App() {
                   </table>
                 </div>
 
-                <div className="mt-3 flex justify-end" style={{ overflow: "visible" }}>
-                  <div className="w-[200px] space-y-1 text-[11px] leading-[1.4]">
-                    <div className="flex justify-between">
-                      <span className="text-[#334155] font-medium">Subtotal</span>
-                      <span className="font-bold text-[#0f172a]">{formatRupiah(subtotal)}</span>
+                <div className="mt-4 flex justify-end">
+                  <div className="w-[220px] rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-3.5 space-y-2">
+                    <div className="flex justify-between text-[11px]">
+                      <span className="text-[#64748b] font-medium tracking-wide">Subtotal</span>
+                      <span className="font-semibold text-[#334155]">{formatRupiah(subtotal)}</span>
                     </div>
                     <div className="h-px bg-[#e2e8f0]" />
-                    <div className="flex justify-between text-[13px] font-bold jakarta">
-                      <span className="text-[#0f172a]">TOTAL</span>
-                      <span className="text-[#15803d]">{formatRupiah(total)}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="font-extrabold jakarta text-[12px] tracking-wide text-[#0f172a]">TOTAL</span>
+                      <span className="font-extrabold jakarta text-[15px] text-[#0f172a] tracking-tight">{formatRupiah(total)}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-3 grid grid-cols-[1.2fr_0.8fr] gap-2" style={{ overflow: "visible" }}>
-                  <div className="rounded-lg bg-[#f8fafc] border border-[#e2e8f0] p-2.5 leading-[1.4]" style={{ overflow: "visible" }}>
-                    <p className="text-[9px] font-bold tracking-[0.14em] text-[#334155] uppercase leading-[1.4]">Pembayaran</p>
-                    <div className="mt-1 flex items-center gap-2">
-                      <div className="px-2 py-1 rounded bg-white border border-[#e2e8f0] text-[10px] font-bold text-[#0f172a] leading-[1.4]">{REKENING.bank}</div>
-                      <span className="font-mono font-bold text-[13px] text-[#0f172a] tracking-tight leading-[1.4]">{REKENING.no}</span>
+                {/* PAYMENT & CONTACT - Consistent spacing */}
+                <div className="mt-4 grid grid-cols-[1.25fr_0.75fr] gap-3">
+                  <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-4 leading-[1.4]">
+                    <p className="text-[8.5px] font-extrabold tracking-[0.16em] text-[#64748b] uppercase">Pembayaran Resmi Toko</p>
+                    <div className="mt-2.5 flex items-center gap-2.5">
+                      <div className="px-2.5 py-1.5 rounded-lg bg-[#0f172a] text-white text-[10px] font-extrabold tracking-wide">{REKENING.bank}</div>
+                      <span className="font-mono font-bold text-[14px] text-[#0f172a] tracking-tight">{REKENING.no}</span>
                     </div>
-                    <p className="text-[10px] text-[#334155] mt-1 leading-[1.4]">
-                      a.n. <span className="font-bold text-[#0f172a]">{REKENING.an}</span> • Konfirmasi WA setelah transfer
+                    <p className="text-[10px] text-[#334155] mt-2 leading-[1.5] font-medium">
+                      a.n. <span className="font-extrabold text-[#0f172a]">{REKENING.an}</span><br/>
+                      <span className="text-[9px] text-[#64748b]">Konfirmasi WA setelah transfer • Bukan a.n pembeli</span>
                     </p>
                   </div>
-                  <div className="rounded-lg bg-white border border-[#e2e8f0] p-2.5 leading-[1.4]" style={{ overflow: "visible" }}>
-                    <p className="text-[9px] font-bold tracking-[0.14em] text-[#334155] uppercase leading-[1.4]">Hubungi</p>
-                    <p className="text-[10px] font-bold text-[#0f172a] mt-1 leading-[1.4]">{CONTACTS.wa1}</p>
-                    <p className="text-[10px] font-bold text-[#0f172a] leading-[1.4]">{CONTACTS.wa2}</p>
-                    <p className="text-[10px] text-[#334155] mt-1 leading-[1.4]">IG @{CONTACTS.ig}</p>
+                  <div className="rounded-xl bg-white border border-[#e2e8f0] p-4 leading-[1.4] flex flex-col justify-center">
+                    <p className="text-[8.5px] font-extrabold tracking-[0.16em] text-[#64748b] uppercase">Hubungi Toko</p>
+                    <div className="mt-2.5 space-y-1">
+                      <p className="text-[10.5px] font-bold text-[#0f172a] flex items-center gap-1.5"><span className="text-[10px]">📞</span>{CONTACTS.wa1}</p>
+                      <p className="text-[10.5px] font-bold text-[#0f172a] flex items-center gap-1.5"><span className="text-[10px]">📞</span>{CONTACTS.wa2}</p>
+                      <div className="h-px bg-[#f1f5f9] my-1.5"/>
+                      <p className="text-[10px] text-[#334155] font-medium">IG @{CONTACTS.ig}</p>
+                    </div>
                   </div>
                 </div>
 
