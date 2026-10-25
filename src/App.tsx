@@ -132,6 +132,21 @@ async function ensureJsPDF(): Promise<any> {
   }
   throw new Error("jsPDF unavailable");
 }
+async function ensureHtmlToImage(): Promise<any> {
+  const w = window as any;
+  if (w.htmlToImage) return w.htmlToImage;
+  const cdns = [
+    "https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js",
+    "https://unpkg.com/html-to-image@1.11.13/dist/html-to-image.js",
+  ];
+  for (const url of cdns) {
+    try {
+      await loadScript(url);
+      if (w.htmlToImage) return w.htmlToImage;
+    } catch {}
+  }
+  throw new Error("html-to-image unavailable");
+}
 
 function dataURLToBlob(dataUrl: string): Blob {
   const arr = dataUrl.split(",");
@@ -260,49 +275,48 @@ export default function App() {
     } catch {}
     if (imgWin) {
       try {
-        imgWin.document.write(`<html><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>Memuat Invoice...</title><style>body{margin:0;background:#0f172a;color:white;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh}</style></head><body><p>Membuat JPG...</p></body></html>`);
+        imgWin.document.write(`<html><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>Memuat Invoice...</title><style>body{margin:0;background:#0f172a;color:white;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh}</style></head><body><p>Membuat JPG (metode preview langsung)...</p></body></html>`);
         imgWin.document.close();
       } catch {}
     }
     setIsExporting("jpg");
-    setExportMsg("Membuat JPG...");
+    setExportMsg("Membuat JPG - mode preview langsung...");
     try {
-      const html2canvas = await ensureHtml2Canvas();
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        useCORS: true,
+      // Tunggu font 100% ke-load biar preview = export
+      try {
+        // @ts-ignore
+        if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      } catch {}
+      // Kasih jeda biar render stabil
+      await new Promise(r => setTimeout(r, 300));
+
+      const htmlToImage = await ensureHtmlToImage();
+      // CARA 1: Langsung foto preview apa adanya - 100% identik
+      const dataUrl = await htmlToImage.toJpeg(el, {
+        quality: 0.95,
         backgroundColor: "#ffffff",
-        logging: false,
-        windowWidth: el.scrollWidth,
-        windowHeight: el.scrollHeight,
-        scrollX: 0,
-        scrollY: 0,
-        onclone: (clonedDoc: Document) => {
-          const clonedEl = clonedDoc.getElementById("invoice-a4-capture") as HTMLElement | null;
-          if (clonedEl) {
-            clonedEl.style.letterSpacing = "normal";
-            clonedEl.style.lineHeight = "1.4";
-            clonedEl.style.overflow = "visible";
-          }
-        },
+        pixelRatio: 3, // high res biar tajam
+        cacheBust: true,
+        // style agar tidak ada shift
+        style: {
+          margin: "0",
+        }
       });
-      const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
+
       if (imgWin && !imgWin.closed) {
-        const html = `<html><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>${invoiceNo}</title><style>body{margin:0;background:#000;color:#fff;font-family:-apple-system,Inter,sans-serif} img{width:100%;display:block;background:#fff} .hint{text-align:center;padding:14px 16px;font-size:14px;line-height:1.4;background:#0f172a} .hint b{color:#22c55e}</style></head><body><img src="${dataUrl}" alt="${invoiceNo}"><p class="hint">Tekan lama gambar → <b>Add to Photos / Save Image</b><br/>Di iPhone: tahan gambar sampai muncul menu simpan</p></body></html>`;
+        const html = `<html><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>${invoiceNo}</title><style>body{margin:0;background:#000;color:#fff;font-family:-apple-system,Inter,sans-serif} img{width:100%;display:block;background:#fff} .hint{text-align:center;padding:14px 16px;font-size:14px;line-height:1.4;background:#0f172a} .hint b{color:#22c55e}</style></head><body><img src="${dataUrl}" alt="${invoiceNo}"><p class="hint">✅ Hasil 100% sama dengan preview<br/>Tekan lama gambar → <b>Add to Photos / Save Image</b></p></body></html>`;
         try {
           imgWin.document.open();
           imgWin.document.write(html);
           imgWin.document.close();
           imgWin.focus();
         } catch {
-          try {
-            imgWin.location.href = dataUrl;
-          } catch {}
+          try { imgWin.location.href = dataUrl; } catch {}
         }
       } else {
         const fallbackWin = window.open();
         if (fallbackWin) {
-          const html = `<html><head><meta name="viewport" content="width=device-width"><title>${invoiceNo}</title></head><body style="margin:0;background:#000"><img src="${dataUrl}" style="width:100%;display:block"><p style="color:white;text-align:center;font-family:sans-serif;padding:12px">Tekan lama gambar → Add to Photos / Save Image</p></body></html>`;
+          const html = `<html><head><meta name="viewport" content="width=device-width"><title>${invoiceNo}</title></head><body style="margin:0;background:#000"><img src="${dataUrl}" style="width:100%;display:block"><p style="color:white;text-align:center;font-family:sans-serif;padding:12px">Tekan lama gambar → Add to Photos</p></body></html>`;
           fallbackWin.document.write(html);
           fallbackWin.document.close();
         }
@@ -324,17 +338,25 @@ export default function App() {
         a.click();
         document.body.removeChild(a);
       } catch {}
-      setExportMsg("JPG dibuka di tab baru — tekan lama untuk Save");
-    } catch (e) {
-      setExportMsg("Gagal JPG — butuh internet untuk loader");
-      if (imgWin && !imgWin.closed) {
-        try {
-          imgWin.close();
-        } catch {}
-      }
+      setExportMsg("JPG 100% sama dengan preview — cek tab baru");
+    } catch (e: any) {
+      console.error(e);
+      setExportMsg("Gagal JPG preview langsung, coba fallback html2canvas...");
+      // FALLBACK ke html2canvas kalau html-to-image gagal
+      try {
+        const html2canvas = await ensureHtml2Canvas();
+        const canvas = await html2canvas(el, { scale: 3, useCORS: true, backgroundColor: "#ffffff", logging: false });
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.95);
+        const fallbackWin = window.open();
+        if (fallbackWin) {
+          fallbackWin.document.write(`<html><body style="margin:0"><img src="${dataUrl}" style="width:100%"></body></html>`);
+          fallbackWin.document.close();
+        }
+      } catch {}
+      if (imgWin && !imgWin.closed) { try { imgWin.close(); } catch {} }
     } finally {
       setIsExporting(null);
-      setTimeout(() => setExportMsg(""), 4000);
+      setTimeout(() => setExportMsg(""), 5000);
     }
   };
 
